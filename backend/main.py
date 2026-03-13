@@ -3,8 +3,11 @@ import os
 import importlib
 import pkgutil
 import logging
+import traceback
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.routing import APIRoute
@@ -59,6 +62,23 @@ app = FastAPI(
 # -----------------------------
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
+# -----------------------------
+# Global Exception Handler (log 500s to terminal)
+# -----------------------------
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Log all unhandled exceptions to terminal so errors are visible during development."""
+    # Force output to terminal (logger can be buffered/suppressed)
+    print(f"\n{'='*60}\n[500 ERROR] {request.method} {request.url.path}\n{exc!r}\n{'='*60}", flush=True)
+    traceback.print_exc()
+    logger.exception("Unhandled exception: %s", exc)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": f"Internal Server Error: {str(exc)}"},
+    )
+
 
 # -----------------------------
 # CORS Middleware

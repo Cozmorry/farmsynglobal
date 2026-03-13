@@ -23,12 +23,12 @@ class Crop(Base):
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
-    name = Column(String, nullable=False)
-    variety = Column(String)
+    name = Column(String(255), nullable=False)
+    variety = Column(String(255))
     planting_date = Column(Date, default=date.today)
     season_start = Column(Date)
     season_end = Column(Date)
-    status = Column(String, default="Active")
+    status = Column(String(255), default="Active")
 
     farm = relationship("Farm")
     block = relationship("Block")
@@ -68,7 +68,7 @@ class NurseryActivity(Base):
 
     planted_date = Column(Date, nullable=False)
     germination_rate = Column(Float)
-    materials_used = Column(String)
+    materials_used = Column(String(255))
     tentative_transplant_date = Column(Date)
     
     crop = relationship("Crop", back_populates="nursery_activities")
@@ -89,8 +89,8 @@ class CropActivity(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
-    activity_type = Column(String, nullable=False)
-    description = Column(String)
+    activity_type = Column(String(255), nullable=False)
+    description = Column(String(255))
     date = Column(Date, default=date.today)
 
     hr_work_session_id = Column(Integer, ForeignKey("hr_work_sessions.id"), nullable=True)
@@ -113,7 +113,7 @@ class LandPreparation(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
     date = Column(Date)
-    method = Column(String)
+    method = Column(String(255))
 
     hr_work_session_id = Column(Integer, ForeignKey("hr_work_sessions.id"), nullable=True)
 
@@ -133,7 +133,7 @@ class Irrigation(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
     date = Column(Date)
-    method = Column(String)
+    method = Column(String(255))
     duration_hours = Column(Float)
 
     hr_work_session_id = Column(Integer, ForeignKey("hr_work_sessions.id"), nullable=True)
@@ -155,7 +155,7 @@ class FertilizerApplication(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
-    fertilizer_name = Column(String, nullable=False)
+    fertilizer_name = Column(String(255), nullable=False)
     quantity_kg = Column(Float, nullable=False)
     date = Column(Date, default=date.today)
 
@@ -182,7 +182,7 @@ class ChemicalApplication(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
-    chemical_name = Column(String, nullable=False)
+    chemical_name = Column(String(255), nullable=False)
     quantity_ltr = Column(Float, nullable=False)
     date = Column(Date, default=date.today)
 
@@ -211,7 +211,7 @@ class Weeding(Base):
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
     date = Column(Date)
-    method = Column(String)
+    method = Column(String(255))
 
     hr_work_session_id = Column(
         Integer, ForeignKey("hr_work_sessions.id"), nullable=True
@@ -268,7 +268,7 @@ class SoilTest(Base):
     p = Column(Float)
     k = Column(Float)
     micronutrients = Column(Text)
-    lab_report = Column(String)
+    lab_report = Column(String(255))
 
     crop = relationship("Crop", back_populates="soil_tests")
     block = relationship("Block")
@@ -286,7 +286,7 @@ class SoilAmendment(Base):
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
 
-    amendment_type = Column(String)
+    amendment_type = Column(String(255))
     quantity = Column(Float)
     date = Column(Date)
 
@@ -311,11 +311,11 @@ class CropRotation(Base):
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=False)
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
 
-    previous_crop = Column(String)
-    next_crop = Column(String)
+    previous_crop = Column(String(255))
+    next_crop = Column(String(255))
     rotation_start = Column(Date)
     rotation_end = Column(Date)
-    notes = Column(String)
+    notes = Column(String(255))
 
     crop = relationship("Crop", back_populates="crop_rotations")
     block = relationship("Block")
@@ -370,7 +370,7 @@ class CropSale(Base):
     grade_c = Column(Float)
     rejects_returned = Column(Float)
     price_per_unit = Column(Float)
-    buyer = Column(String)
+    buyer = Column(String(255))
     income = Column(Float)
 
     crop = relationship("Crop", back_populates="sales")
@@ -388,11 +388,11 @@ class ActivityUpload(Base):
     id = Column(Integer, primary_key=True, index=True)
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
 
-    activity_type = Column(String, nullable=False)
+    activity_type = Column(String(255), nullable=False)
     activity_id = Column(Integer, nullable=False)
 
-    file_path = Column(String, nullable=False)
-    file_type = Column(String)
+    file_path = Column(String(255), nullable=False)
+    file_type = Column(String(255))
     uploaded_at = Column(DateTime, default=datetime.utcnow)
     description = Column(Text)
 

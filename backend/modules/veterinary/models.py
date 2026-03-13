@@ -23,8 +23,8 @@ class AnimalGroup(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    group_name = Column(String, nullable=False)
-    species = Column(String, nullable=False)
+    group_name = Column(String(255), nullable=False)
+    species = Column(String(255), nullable=False)
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=True)
     group_type = Column(Enum(GroupTypeEnum), nullable=False)
     quantity = Column(Integer, default=0)
@@ -57,9 +57,9 @@ class PoultryHealth(Base):
     date_checked = Column(Date, default=lambda: date.today())
     symptoms = Column(Text, nullable=True)
     mortality = Column(Integer, default=0)
-    disease_detected = Column(String, nullable=True)
+    disease_detected = Column(String(255), nullable=True)
     treatment_given = Column(Text, nullable=True)
-    health_status = Column(String, nullable=True)
+    health_status = Column(String(255), nullable=True)
     notes = Column(Text, nullable=True)
 
     animal_group = relationship("AnimalGroup", back_populates="poultry_health")
@@ -78,10 +78,10 @@ class AquacultureHealth(Base):
     date_checked = Column(Date, default=lambda: date.today())
     symptoms = Column(Text, nullable=True)
     mortality = Column(Integer, default=0)
-    disease_detected = Column(String, nullable=True)
+    disease_detected = Column(String(255), nullable=True)
     treatment_given = Column(Text, nullable=True)
-    water_quality_status = Column(String, nullable=True)
-    health_status = Column(String, nullable=True)
+    water_quality_status = Column(String(255), nullable=True)
+    health_status = Column(String(255), nullable=True)
     notes = Column(Text, nullable=True)
 
     pond = relationship("Aquaculture", back_populates="health_records")
@@ -99,9 +99,9 @@ class LivestockHealth(Base):
     animal_group_id = Column(Integer, ForeignKey("animal_groups.id"), nullable=False)
     date_checked = Column(Date, default=lambda: date.today())
     symptoms = Column(Text, nullable=True)
-    disease_detected = Column(String, nullable=True)
+    disease_detected = Column(String(255), nullable=True)
     treatment_given = Column(Text, nullable=True)
-    health_status = Column(String, nullable=True)
+    health_status = Column(String(255), nullable=True)
     notes = Column(Text, nullable=True)
 
     livestock = relationship("Livestock")
@@ -141,8 +141,8 @@ class VeterinaryUpload(Base):
     poultry_health_id = Column(Integer, ForeignKey("poultry_health.id"), nullable=True)
     aquaculture_health_id = Column(Integer, ForeignKey("aquaculture_health.id"), nullable=True)
 
-    file_path = Column(String, nullable=False)
-    file_type = Column(String, nullable=False)
+    file_path = Column(String(255), nullable=False)
+    file_type = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
     date_uploaded = Column(Date, default=lambda: date.today())
 

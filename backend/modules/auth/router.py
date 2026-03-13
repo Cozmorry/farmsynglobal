@@ -1,4 +1,6 @@
 # backend/modules/auth/router.py
+import logging
+import traceback
 from datetime import timedelta
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
@@ -6,6 +8,8 @@ from sqlalchemy import or_
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 
 from backend.core.database import get_db
+
+logger = logging.getLogger("FarmSyn")
 from backend.core.security import (
     hash_password,
     verify_password,
@@ -98,30 +102,42 @@ def register(
     payload: RegisterSchema,
     db: Session = Depends(get_db),
 ):
-    if db.query(User).filter(User.email == payload.email).first():
-        raise HTTPException(status_code=400, detail="Email already registered")
+    try:
+        if db.query(User).filter(User.email == payload.email).first():
+            raise HTTPException(status_code=400, detail="Email already registered")
 
-    if db.query(User).filter(User.username == payload.username).first():
-        raise HTTPException(status_code=400, detail="Username already taken")
+        if db.query(User).filter(User.username == payload.username).first():
+            raise HTTPException(status_code=400, detail="Username already taken")
 
-    user = User(
-        username=payload.username,
-        email=payload.email,
-        password=hash_password(payload.password),
-        is_active=True,
-        is_superuser=False,  # 🔒 forced
-    )
+        user = User(
+            username=payload.username,
+            email=payload.email,
+            password=hash_password(payload.password),
+            is_active=True,
+            is_superuser=False,  # 🔒 forced
+        )
 
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+        db.add(user)
+        db.commit()
+        db.refresh(user)
 
-    return {
-        "id": user.id,
-        "username": user.username,
-        "email": user.email,
-        "farms": []
-    }
+        return {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "farms": []
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        # Force terminal output (uvicorn may not show logger output)
+        print(f"\n[REGISTER ERROR] {e!r}", flush=True)
+        traceback.print_exc()
+        logger.exception("Register failed: %s", str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Registration failed: {str(e)}",
+        ) from e
 
 # ============================================================
 # CURRENT USER

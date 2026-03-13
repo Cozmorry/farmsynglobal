@@ -14,16 +14,16 @@ class Aquaculture(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    pond_name = Column(String, nullable=False)
-    species = Column(String, nullable=False)
+    pond_name = Column(String(255), nullable=False)
+    species = Column(String(255), nullable=False)
     pond_size = Column(Float, nullable=True)
     stock_quantity = Column(Integer, nullable=True)
     average_weight = Column(Float, default=0.0)
     date_stocked = Column(Date, default=date.today)
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=True)
-    feed_type = Column(String, nullable=True)
+    feed_type = Column(String(255), nullable=True)
     feed_cost = Column(Float, nullable=True)
-    water_quality_status = Column(String, nullable=True)
+    water_quality_status = Column(String(255), nullable=True)
     notes = Column(Text, nullable=True)
 
     farm = relationship("Farm")
@@ -80,7 +80,7 @@ class AquacultureFeeding(Base):
     pond_id = Column(Integer, ForeignKey("aquaculture.id"))
     date = Column(Date, default=date.today)
     feed_quantity = Column(Float, nullable=False)
-    feed_type = Column(String, nullable=True)
+    feed_type = Column(String(255), nullable=True)
     remarks = Column(Text, nullable=True)
     consumable_id = Column(Integer, nullable=True)
 
@@ -134,10 +134,10 @@ class AquacultureActivity(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     pond_id = Column(Integer, ForeignKey("aquaculture.id"))
-    activity_type = Column(String, nullable=False)
+    activity_type = Column(String(255), nullable=False)
     date = Column(Date, default=date.today)
     description = Column(Text, nullable=True)
-    performed_by = Column(String, nullable=True)
+    performed_by = Column(String(255), nullable=True)
     cost = Column(Float, default=0.0)
     consumable_id = Column(Integer, nullable=True)
 
@@ -153,7 +153,7 @@ class AquacultureProduction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     pond_id = Column(Integer, ForeignKey("aquaculture.id"))
-    production_type = Column(String, nullable=False)
+    production_type = Column(String(255), nullable=False)
     quantity = Column(Float, nullable=False)
     unit_price = Column(Float, default=0.0)
     total_value = Column(Float, default=0.0)

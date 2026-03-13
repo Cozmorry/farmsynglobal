@@ -1,4 +1,5 @@
 #backend/core/Security.py
+import hashlib
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
@@ -15,16 +16,38 @@ import os
 load_dotenv()
 
 # ============================================================
-# PASSWORD HASHING (Argon2)
+# PASSWORD HASHING (bcrypt - widely supported)
+# ============================================================
+# Bcrypt 5.0+ raises on passwords > 72 bytes. We SHA256-hash first
+# so the input to bcrypt is always 64 hex chars (64 bytes).
 # ============================================================
 
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Bcrypt rejects input > 72 bytes. Truncate password first, then SHA256 -> fixed 64 bytes.
+_BCRYPT_MAX_BYTES = 72
+
+
+def _to_bcrypt_input(password: str) -> str:
+    """Truncate password to 72 bytes, then SHA256 -> 64-char hex. Safe for any bcrypt version."""
+    if not password:
+        return hashlib.sha256(b"").hexdigest()
+    b = password.encode("utf-8")
+    if len(b) > _BCRYPT_MAX_BYTES:
+        b = b[:_BCRYPT_MAX_BYTES]
+        # Avoid cutting multi-byte UTF-8 in the middle
+        while b and (b[-1] & 0xC0) == 0x80:
+            b = b[:-1]
+        password = b.decode("utf-8", errors="replace")
+    return hashlib.sha256(password.encode("utf-8")).hexdigest()
+
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return pwd_context.hash(_to_bcrypt_input(password))
+
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return pwd_context.verify(_to_bcrypt_input(plain), hashed)
 
 
 # ============================================================

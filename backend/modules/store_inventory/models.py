@@ -77,15 +77,15 @@ class StoreItem(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
 
     # Enums now accept any case input due to validators (below)
     category = Column(Enum(ItemCategory), nullable=False, default=ItemCategory.GENERAL)
     module_type = Column(Enum(ModuleType), default=ModuleType.GENERAL)
 
     # Units
-    purchase_unit = Column(String, default="unit")
-    usage_unit = Column(String, default="unit")
+    purchase_unit = Column(String(50), default="unit")
+    usage_unit = Column(String(50), default="unit")
     conversion_factor = Column(Float, default=1.0)
 
     # Stock tracking
@@ -95,17 +95,17 @@ class StoreItem(Base):
     total_value = Column(Float, default=0.0)
 
     # Metadata
-    manufacturer = Column(String, nullable=True)
+    manufacturer = Column(String(255), nullable=True)
     manufacture_date = Column(Date, nullable=True)
     expiry_date = Column(Date, nullable=True)
     composition = Column(Text, nullable=True)
     active_ingredients = Column(Text, nullable=True)
     intended_use = Column(Text, nullable=True)
-    batch_number = Column(String, nullable=True)
-    storage_location = Column(String, nullable=True)
+    batch_number = Column(String(100), nullable=True)
+    storage_location = Column(String(255), nullable=True)
     safety_precautions = Column(Text, nullable=True)
     remarks = Column(Text, nullable=True)
-    product_website = Column(String, nullable=True)
+    product_website = Column(String(500), nullable=True)
 
     # Linking
     farm_id = Column(Integer, nullable=True)
@@ -168,9 +168,9 @@ class InventoryTransaction(Base):
     total_cost = Column(Float, nullable=True)
 
     date = Column(DateTime, default=datetime.utcnow)
-    reference = Column(String, nullable=True)
+    reference = Column(String(255), nullable=True)
     description = Column(Text, nullable=True)
-    recorded_by = Column(String, nullable=True)
+    recorded_by = Column(String(255), nullable=True)
 
     module_type = Column(Enum(ModuleType), nullable=True)
     linked_entity_id = Column(Integer, nullable=True)
@@ -206,10 +206,10 @@ class FinanceEntry(Base):
     linked_entity_id = Column(Integer, nullable=True)
 
     amount = Column(Float, nullable=False)
-    entry_type = Column(String, nullable=False)
+    entry_type = Column(String(50), nullable=False)
     date_recorded = Column(DateTime, default=datetime.utcnow)
     description = Column(Text, nullable=True)
-    recorded_by = Column(String, nullable=True)
+    recorded_by = Column(String(255), nullable=True)
 
     # Relationships
     store_item = relationship("StoreItem", back_populates="finance_entries")

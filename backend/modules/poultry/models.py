@@ -13,17 +13,17 @@ class PoultryBatch(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    batch_name = Column(String, nullable=False)
-    breed = Column(String, nullable=True)
+    batch_name = Column(String(255), nullable=False)
+    breed = Column(String(255), nullable=True)
     batch_size = Column(Integer, nullable=True)
     farm_id = Column(Integer, ForeignKey("farms.id"))
     start_date = Column(Date, default=date.today)
-    housing_type = Column(String, nullable=True)
-    purpose = Column(String, nullable=True)
-    source = Column(String, nullable=True)
+    housing_type = Column(String(255), nullable=True)
+    purpose = Column(String(255), nullable=True)
+    source = Column(String(255), nullable=True)
     expected_cycle_days = Column(Integer, nullable=True)
     notes = Column(Text, nullable=True)
-    status = Column(String, default="Active")
+    status = Column(String(255), default="Active")
 
     # Relationships
     activities = relationship(
@@ -53,9 +53,9 @@ class PoultryActivity(Base):
     poultry_batch_id = Column(Integer, ForeignKey("poultry_batches.id"))
     date = Column(Date, default=date.today)
 
-    activity_type = Column(String, nullable=False)
+    activity_type = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
-    performed_by = Column(String, nullable=True)
+    performed_by = Column(String(255), nullable=True)
 
     # Quantities ONLY
     feed_used_kg = Column(Float, nullable=True)
@@ -83,11 +83,11 @@ class PoultryProduction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     poultry_batch_id = Column(Integer, ForeignKey("poultry_batches.id"))
-    production_type = Column(String, nullable=False)
+    production_type = Column(String(255), nullable=False)
     date = Column(Date, default=date.today)
     quantity = Column(Float, nullable=False)
     unit_price = Column(Float, default=0.0)
-    quality_grade = Column(String, nullable=True)
+    quality_grade = Column(String(255), nullable=True)
     remarks = Column(Text, nullable=True)
 
     batch = relationship("PoultryBatch", back_populates="productions")
@@ -101,12 +101,12 @@ class PoultrySale(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     poultry_batch_id = Column(Integer, ForeignKey("poultry_batches.id"))
-    sale_type = Column(String, nullable=False)
+    sale_type = Column(String(255), nullable=False)
     quantity = Column(Float, nullable=False)
     unit_price = Column(Float, nullable=False)
     sale_date = Column(Date, default=date.today)
-    buyer_name = Column(String, nullable=True)
-    payment_status = Column(String, default="Pending")
+    buyer_name = Column(String(255), nullable=True)
+    payment_status = Column(String(255), default="Pending")
 
     batch = relationship("PoultryBatch", back_populates="sales")
 

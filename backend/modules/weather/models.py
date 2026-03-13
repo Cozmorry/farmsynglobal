@@ -14,7 +14,7 @@ class WeatherSnapshot(Base):
     rainfall = Column(Float, nullable=True)
     wind_speed = Column(Float, nullable=True)
     wind_direction = Column(Float, nullable=True)
-    description = Column(String, nullable=True)
+    description = Column(String(255), nullable=True)
 
     recorded_at = Column(DateTime, default=datetime.utcnow, index=True)
 

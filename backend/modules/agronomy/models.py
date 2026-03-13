@@ -20,12 +20,12 @@ class AgronomyRecommendation(Base):
     block_id = Column(Integer, ForeignKey("blocks.id"), nullable=True)
 
     recommendation_text = Column(Text, nullable=False)
-    recommended_action = Column(String, nullable=True)
+    recommended_action = Column(String(255), nullable=True)
     date_given = Column(Date, default=datetime.date.today)
-    generated_by = Column(String, nullable=True)
-    source = Column(String, nullable=True)
-    priority = Column(String, nullable=True)
-    status = Column(String, default="Pending")
+    generated_by = Column(String(255), nullable=True)
+    source = Column(String(255), nullable=True)
+    priority = Column(String(255), nullable=True)
+    status = Column(String(255), default="Pending")
 
     crop = relationship("Crop", back_populates="agronomy_recommendations")
     block = relationship("Block")
@@ -38,8 +38,8 @@ class AgronomyUpload(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     recommendation_id = Column(Integer, ForeignKey("agronomy_recommendations.id"), nullable=False)
-    file_path = Column(String, nullable=False)
-    file_type = Column(String, nullable=True)
+    file_path = Column(String(255), nullable=False)
+    file_type = Column(String(255), nullable=True)
     uploaded_at = Column(DateTime, default=datetime.datetime.utcnow)
     description = Column(Text, nullable=True)
 
@@ -59,7 +59,7 @@ class AgronomyObservation(Base):
     disease_issues = Column(Text, nullable=True)
     nutrient_deficiencies = Column(Text, nullable=True)
     suggested_action = Column(Text, nullable=True)
-    reported_by = Column(String, nullable=True)
+    reported_by = Column(String(255), nullable=True)
 
     crop = relationship("Crop")
     block = relationship("Block")
@@ -72,8 +72,8 @@ class AgronomyObservationUpload(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     observation_id = Column(Integer, ForeignKey("agronomy_observations.id"), nullable=False)
-    file_path = Column(String, nullable=False)
-    file_type = Column(String, nullable=True)
+    file_path = Column(String(255), nullable=False)
+    file_type = Column(String(255), nullable=True)
     uploaded_at = Column(DateTime, default=datetime.datetime.utcnow)
     description = Column(Text, nullable=True)
 

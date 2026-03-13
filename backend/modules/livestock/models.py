@@ -64,11 +64,11 @@ class Livestock(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    tag_number = Column(String, unique=True, nullable=True)
+    name = Column(String(255), nullable=False)
+    tag_number = Column(String(255), unique=True, nullable=True)
 
     type = Column(Enum(LivestockTypeEnum), nullable=False)
-    breed = Column(String, nullable=True)
+    breed = Column(String(255), nullable=True)
     gender = Column(Enum(GenderEnum), nullable=False)
 
     date_of_birth = Column(Date, nullable=True)
@@ -127,7 +127,7 @@ class LivestockGroup(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
     description = Column(Text, nullable=True)
 
@@ -191,13 +191,13 @@ class LivestockActivity(Base):
     id = Column(Integer, primary_key=True, index=True)
     livestock_id = Column(Integer, ForeignKey("livestock.id"), nullable=False)
 
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
 
     activity_type = Column(Enum(ActivityTypeEnum), nullable=False)
     activity_category = Column(Enum(ActivityCategoryEnum), nullable=False)
 
-    performed_by = Column(String, nullable=True)
+    performed_by = Column(String(255), nullable=True)
 
     store_item_id = Column(Integer, ForeignKey("store_items.id"), nullable=True)
     quantity_used = Column(Float, nullable=True)
@@ -254,8 +254,8 @@ class LivestockSale(Base):
     unit_price = Column(Float, nullable=False)
     total_sale = Column(Float, nullable=False)
 
-    buyer_name = Column(String, nullable=True)
-    payment_status = Column(String, default="paid")
+    buyer_name = Column(String(255), nullable=True)
+    payment_status = Column(String(255), default="paid")
     date = Column(Date, default=date.today)
 
     livestock = relationship("Livestock", back_populates="sales")
@@ -275,7 +275,7 @@ class LivestockBreeding(Base):
     sire_id = Column(Integer, ForeignKey("livestock.id"), nullable=True)
 
     service_date = Column(Date, nullable=False)
-    method = Column(String, nullable=True)
+    method = Column(String(255), nullable=True)
 
     expected_birth_date = Column(Date, nullable=True)
     actual_birth_date = Column(Date, nullable=True)
@@ -310,8 +310,8 @@ class LivestockExpense(Base):
         Integer, ForeignKey("finance_base.id"), nullable=False
     )
 
-    category = Column(String, default="Livestock")
-    sub_category = Column(String, nullable=True)
+    category = Column(String(255), default="Livestock")
+    sub_category = Column(String(255), nullable=True)
 
     date = Column(Date, default=date.today)
 

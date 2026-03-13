@@ -33,14 +33,14 @@ class FinanceBase(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    description = Column(String, nullable=False)
+    description = Column(String(255), nullable=False)
     amount = Column(Float, nullable=False)
-    category = Column(String, nullable=False)  # income | expense
-    source = Column(String, default="Manual Entry")
+    category = Column(String(255), nullable=False)  # income | expense
+    source = Column(String(255), default="Manual Entry")
     date = Column(Date, default=date.today)
 
-    receipt_file = Column(String, nullable=True)
-    uploaded_by = Column(String, nullable=True)
+    receipt_file = Column(String(255), nullable=True)
+    uploaded_by = Column(String(255), nullable=True)
     upload_date = Column(DateTime, default=datetime.utcnow)
 
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
@@ -238,13 +238,13 @@ class Invoice(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    invoice_number = Column(String, nullable=False, unique=True)
-    description = Column(String, nullable=True)
+    invoice_number = Column(String(255), nullable=False, unique=True)
+    description = Column(String(255), nullable=True)
     amount = Column(Float, nullable=False)
 
     date_issued = Column(Date, default=date.today)
     due_date = Column(Date, nullable=True)
-    status = Column(String, default="unpaid")
+    status = Column(String(255), default="unpaid")
 
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=True)
 
@@ -261,10 +261,10 @@ class Payment(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    payment_reference = Column(String, nullable=False, unique=True)
+    payment_reference = Column(String(255), nullable=False, unique=True)
     amount = Column(Float, nullable=False)
     date_paid = Column(Date, default=date.today)
-    method = Column(String, default="cash")
+    method = Column(String(255), default="cash")
 
     invoice_id = Column(Integer, ForeignKey("invoices.id"), nullable=True)
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=True)

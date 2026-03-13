@@ -48,8 +48,8 @@ class Farm(Base):
     __tablename__ = "farms"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    location = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
+    location = Column(String(500), nullable=False)
 
     farm_type = Column(
         SqlEnum(FarmTypeEnum, name="farm_type_enum"),
@@ -70,7 +70,7 @@ class Farm(Base):
         default=list,
     )
 
-    scale = Column(String, nullable=False, default="small")  # "small", "medium", "large"
+    scale = Column(String(50), nullable=False, default="small")  # "small", "medium", "large"
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
@@ -149,7 +149,7 @@ class Block(Base):
     __tablename__ = "blocks"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
 
     area = Column(
         JSON,
@@ -175,7 +175,7 @@ class Greenhouse(Base):
     __tablename__ = "greenhouses"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
 
     area = Column(
         JSON,
@@ -198,7 +198,7 @@ class Barn(Base):
     __tablename__ = "barns"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
     capacity = Column(Integer)
 
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
@@ -214,7 +214,7 @@ class Coop(Base):
     __tablename__ = "coops"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
     capacity = Column(Integer)
 
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
@@ -230,7 +230,7 @@ class Pond(Base):
     __tablename__ = "ponds"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
 
     size = Column(
         JSON,
