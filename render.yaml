@@ -1,6 +1,10 @@
-# FarmSyn Global - Render Blueprint
-# Deploy from Dashboard: Connect repo → New → Blueprint → point to this file
-# Set DATABASE_URL, SECRET_KEY, and FRONTEND_URLS in the Dashboard for each service.
+# FarmSyn Global - Render Blueprint (PostgreSQL)
+# New → Blueprint → connect repo. Set FRONTEND_URLS and VITE_API_BASE_URL in Dashboard.
+
+databases:
+  - name: farmsyn-db
+    databaseName: farmsyn
+    plan: free
 
 services:
   # -----------------------------
@@ -19,7 +23,9 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: farmsyn-db
+          property: connectionString
       - key: FRONTEND_URLS
         sync: false
 

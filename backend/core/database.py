@@ -1,45 +1,19 @@
 # backend/core/database.py
 
 import importlib
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import OperationalError
-from sqlalchemy.engine import make_url
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 # --------------------
-# ENSURE MYSQL DATABASE EXISTS
+# ENGINE & BASE (PostgreSQL)
 # --------------------
-def _ensure_mysql_db(url_str: str) -> None:
-    """Create MySQL database if it doesn't exist."""
-    try:
-        url = make_url(url_str)
-        if url.drivername and "mysql" in url.drivername and url.database:
-            import pymysql
-            conn = pymysql.connect(
-                host=url.host or "localhost",
-                port=url.port or 3306,
-                user=url.username,
-                password=url.password or "",
-                charset="utf8mb4",
-            )
-            with conn.cursor() as cur:
-                cur.execute(f"CREATE DATABASE IF NOT EXISTS `{url.database}`")
-            conn.commit()
-            conn.close()
-    except Exception as e:
-        import logging
-        logging.warning(f"Could not auto-create MySQL database: {e}")
-
-# --------------------
-# ENGINE & BASE
-# --------------------
+# DATABASE_URL format: postgresql+psycopg2://user:password@host:5432/dbname
 DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    _ensure_mysql_db(DATABASE_URL)
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -81,12 +55,8 @@ def init_db():
         Base.metadata.create_all(bind=engine)
         print("\n[SUCCESS] All database tables created/verified!")
     except OperationalError as e:
-        # MySQL 1050 = table already exists (from previous/partial run)
-        err_code = getattr(getattr(e, "orig", None), "args", [None])[0]
-        if err_code == 1050:
-            print("\n[INFO] Tables already exist; schema up-to-date.")
-        else:
-            raise
+        print(f"\n[WARN] create_all error (tables may already exist): {e}")
+        raise
 
 # --------------------
 # DATABASE SESSION DEPENDENCY

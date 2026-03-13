@@ -4,7 +4,51 @@
 
 - **Backend**: Python Web Service (FastAPI) at `farmsyn-api` (or your chosen name).
 - **Frontend**: Static Site (Vite/React) at `farmsyn-web`.
-- **Database**: Use an external MySQL (e.g. [PlanetScale](https://planetscale.com), [Railway](https://railway.app), or any MySQL host). Render does not offer MySQL; you can use Render Postgres only if you switch the app to PostgreSQL.
+- **Database**: **PostgreSQL**. Use [Render Postgres](https://render.com/docs/databases) (same dashboard) or any Postgres host.
+
+---
+
+## Local development (PostgreSQL)
+
+For local testing you need a running Postgres server.
+
+**Option 1 – Install PostgreSQL locally**
+
+- **Windows**: [PostgreSQL installer](https://www.postgresql.org/download/windows/)
+- **macOS**: `brew install postgresql@16` then `brew services start postgresql@16`
+- **Linux**: `sudo apt install postgresql` (or your distro’s package)
+
+Then create a database and user:
+
+```bash
+# In psql or pgAdmin: create database and (optionally) a user
+CREATE DATABASE farmsyn;
+# If you use a dedicated user:
+# CREATE USER farmsyn_user WITH PASSWORD 'yourpassword';
+# GRANT ALL PRIVILEGES ON DATABASE farmsyn TO farmsyn_user;
+```
+
+In `.env` set:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:YOUR_PASSWORD@localhost:5432/farmsyn
+```
+
+**Option 2 – Postgres in Docker (no full install)**
+
+```bash
+docker run -d --name postgres-farmsyn -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=farmsyn -p 5432:5432 postgres:16
+```
+
+Then:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/farmsyn
+```
+
+**Option 3 – Hosted Postgres**
+
+Use a free tier (e.g. [Neon](https://neon.tech), [Supabase](https://supabase.com), or Render Postgres) and put the connection string in `DATABASE_URL`.
 
 ---
 
@@ -55,7 +99,7 @@
 |-----------------|----------------|
 | `ENV`           | `production` (optional; Blueprint sets it.) |
 | `SECRET_KEY`    | Long random string (or use “Generate” in Render). |
-| `DATABASE_URL`  | Your MySQL URL, e.g. `mysql+pymysql://USER:PASSWORD@HOST:3306/DATABASE`. |
+| `DATABASE_URL`  | PostgreSQL URL, e.g. `postgresql+psycopg2://USER:PASSWORD@HOST:5432/DATABASE`. On Render you can link a Postgres DB and use **Secret Files** or the DB’s **Internal Connection String**. |
 | `FRONTEND_URLS` | Comma-separated frontend origins for CORS, e.g. `https://farmsyn-web.onrender.com`. |
 
 ### Frontend (`farmsyn-web`)
@@ -77,13 +121,12 @@ Important: set `VITE_API_BASE_URL` **before** the first build; Vite bakes it in 
 
 ---
 
-## 5. MySQL
+## 5. PostgreSQL on Render
 
-- Create a MySQL database with any provider (PlanetScale, Railway, etc.).
-- Use a connection string in the form:  
-  `mysql+pymysql://USER:PASSWORD@HOST:3306/DATABASE`
-- Ensure the host allows connections from Render (e.g. allow 0.0.0.0/0 or Render’s IPs if documented).
-- Put this string in the backend’s `DATABASE_URL` env var.
+1. In the Render dashboard: **New** → **PostgreSQL**.
+2. Create the database (e.g. name `farmsyn`).
+3. In the DB’s **Info** tab, copy the **Internal Database URL** (or External if your backend is not on Render).
+4. In your **backend** service, set `DATABASE_URL` to that URL (Render can inject it via **Connect** when you add the database to the same Blueprint).
 
 ---
 
