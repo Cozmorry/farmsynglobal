@@ -1,0 +1,25 @@
+.farm-details-container {
+  padding: 20px;
+}
+
+.structures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.structure-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.structure-card h3 {
+  margin-top: 0;
+}
+
+.structure-card ul {
+  padding-left: 20px;
+}

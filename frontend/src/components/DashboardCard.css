@@ -1,0 +1,37 @@
+/* src/components/DashboardCard.css */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #2d3748; /* darker blue-gray */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar nav a {
+  color: #e2e8f0;
+  text-decoration: none;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.sidebar nav a.active {
+  background-color: #4c6ef5;
+  font-weight: bold;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  background-color: #f1f5f9; /* light gray background */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}

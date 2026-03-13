@@ -1,0 +1,30 @@
+//src/pages/Home.css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.farm-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.farm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.farm-card h4 {
+  margin: 0 0 6px 0;
+}
+
+.farm-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}

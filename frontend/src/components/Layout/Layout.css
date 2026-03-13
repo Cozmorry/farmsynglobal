@@ -1,0 +1,135 @@
+// src/components/Layout.css
+/* Main container */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  background: #f4f6f9;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-container.collapsed .sidebar {
+  width: 80px;
+}
+
+.sidebar-top {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-top h2 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.farm-name {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+/* Collapse button */
+.collapse-btn {
+  margin-top: 15px;
+  background: #334155;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Navigation */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.sidebar-nav a.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+/* Logout button */
+.logout-btn {
+  margin-top: auto;
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Main content */
+.dashboard-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.dashboard-header {
+  background: white;
+  padding: 18px 30px;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-header p {
+  margin: 0;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* Content area */
+.dashboard-content {
+  padding: 30px;
+}
+
+/* Modern Card Style */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
