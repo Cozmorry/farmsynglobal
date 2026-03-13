@@ -1,0 +1,39 @@
+# FarmSyn Global - Render Blueprint
+# Deploy from Dashboard: Connect repo → New → Blueprint → point to this file
+# Set DATABASE_URL, SECRET_KEY, and FRONTEND_URLS in the Dashboard for each service.
+
+services:
+  # -----------------------------
+  # Backend API (FastAPI)
+  # -----------------------------
+  - type: web
+    runtime: python
+    name: farmsyn-api
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: FRONTEND_URLS
+        sync: false
+
+  # -----------------------------
+  # Frontend (React/Vite static)
+  # -----------------------------
+  - type: web
+    runtime: static
+    name: farmsyn-web
+
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
