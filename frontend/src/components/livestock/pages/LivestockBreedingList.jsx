@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Typography, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { breeding } from "../api/livestockApi";
+import { breeding } from "../api/LivestockApi";
 
 export default function LivestockBreedingList() {
   const navigate = useNavigate();

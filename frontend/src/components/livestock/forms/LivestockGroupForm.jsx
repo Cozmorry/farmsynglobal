@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { groups } from "../api/livestockApi";
+import { groups } from "../api/LivestockApi";
 
 export default function LivestockGroupForm() {
   const navigate = useNavigate();

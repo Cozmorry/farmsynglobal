@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LivestockSubmoduleForm from "../forms/LivestockSubmoduleForm";
 import { Container, Typography, CircularProgress, Alert } from "@mui/material";
-import * as api from "../api/livestockApi";
+import * as api from "../api/LivestockApi";
 
 export default function LivestockSubmoduleEdit() {
   const { submodule, id } = useParams();

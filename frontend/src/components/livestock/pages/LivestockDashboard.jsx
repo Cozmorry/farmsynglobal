@@ -9,7 +9,7 @@ import {
   groups,
   productions,
   sales,
-} from "../api/livestockApi";
+} from "../api/LivestockApi";
 
 const StatCard = ({ title, value, link }) => (
   <Paper sx={{ p: 3 }}>
