@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import AddFarmMembers from "../components/farms/AddFarmMembers";
+import AddFarmMembers from "../components/Farms/AddFarmMembers";
 
 const PRODUCTION_MODULES = ["crop", "livestock", "poultry", "aquaculture"];
 

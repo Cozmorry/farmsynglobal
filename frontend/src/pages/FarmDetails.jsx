@@ -5,7 +5,7 @@ import api from "../api/axios";
 import "./Home.css";
 
 import UnitToggle from "../components/UnitToggle";
-import StructureCard from "../components/farms/StructureCard";
+import StructureCard from "../components/Farms/StructureCard";
 
 export default function FarmDetails() {
   const { farmId } = useParams();
