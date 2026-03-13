@@ -1,5 +1,6 @@
 # FarmSyn Global - Render Blueprint (PostgreSQL)
-# New → Blueprint → connect repo. Set FRONTEND_URLS and VITE_API_BASE_URL in Dashboard.
+# Creates: farmsyn-db, farmsyn-api (backend), farmsyn-web (frontend).
+# Set FRONTEND_URLS and VITE_API_BASE_URL when prompted.
 
 databases:
   - name: farmsyn-db
@@ -7,9 +8,7 @@ databases:
     plan: free
 
 services:
-  # -----------------------------
-  # Backend API (FastAPI)
-  # -----------------------------
+  # Backend API (FastAPI) - must be created by Blueprint
   - type: web
     runtime: python
     name: farmsyn-api
