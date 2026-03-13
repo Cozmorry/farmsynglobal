@@ -21,8 +21,8 @@ import AgronomyRoutes from "./components/agronomy/AgronomyRoutes";
 import VeterinaryRoutes from "./components/veterinary/VeterinaryRoutes";
 
 import Navigation from "./components/Navigation";
-import ProtectedRoute from "./components/layout/ProtectedRoute";
-import MainLayout from "./components/layout/MainLayout";
+import ProtectedRoute from "./components/Layout/ProtectedRoute";
+import MainLayout from "./components/Layout/MainLayout";
 
 import { UsersProvider } from "./context/UsersContext";
 import { TenantProvider } from "./context/TenantContext";
